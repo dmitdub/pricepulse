@@ -1,0 +1,15 @@
+# Normalize line endings
+* text=auto
+
+# Go source files
+*.go text eol=lf
+
+# Go module files
+go.mod text eol=lf
+go.sum text eol=lf
+
+# Build and configuration files
+Makefile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
