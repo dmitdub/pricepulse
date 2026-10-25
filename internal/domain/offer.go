@@ -1,22 +1,11 @@
 package domain
 
 import (
-	"errors"
 	"strings"
 	"time"
 )
 
 const CurrencyCodeLength = 3
-
-var (
-	ErrInvalidOfferID       = errors.New("invalid offer ID")
-	ErrInvalidProductID     = errors.New("invalid product ID")
-	ErrInvalidRegularPrice  = errors.New("regular price must be greater than zero")
-	ErrInvalidCurrentPrice  = errors.New("current price cannot be negative")
-	ErrInvalidCurrency      = errors.New("currency must be a 3-letter code")
-	ErrInvalidStockQuantity = errors.New("stock quantity cannot be negative")
-	ErrInvalidCreatedAt     = errors.New("created at cannot be zero")
-)
 
 type Offer struct {
 	id            string
@@ -110,6 +99,36 @@ func (o Offer) DiscountPercent() int {
 	discount := (o.regularPrice - o.currentPrice) * 100 / o.regularPrice
 
 	return int(discount)
+}
+
+func (o *Offer) UpdatePrice(newPrice int64, updatedAt time.Time) error {
+	if newPrice < 0 {
+		return ErrInvalidCurrentPrice
+	}
+
+	if updatedAt.IsZero() {
+		return ErrInvalidUpdatedAt
+	}
+
+	o.currentPrice = newPrice
+	o.updatedAt = updatedAt
+
+	return nil
+}
+
+func (o *Offer) UpdateStock(newQuantity int, updatedAt time.Time) error {
+	if newQuantity < 0 {
+		return ErrInvalidStockQuantity
+	}
+
+	if updatedAt.IsZero() {
+		return ErrInvalidUpdatedAt
+	}
+
+	o.stockQuantity = newQuantity
+	o.updatedAt = updatedAt
+
+	return nil
 }
 
 func (o Offer) ID() string {
