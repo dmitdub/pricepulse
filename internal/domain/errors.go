@@ -3,6 +3,9 @@ package domain
 import "errors"
 
 var (
+	ErrProductNotFound = errors.New("product not found")
+	ErrOfferNotFound   = errors.New("offer not found")
+
 	ErrInvalidOfferID            = errors.New("invalid offer ID")
 	ErrInvalidProductID          = errors.New("invalid product ID")
 	ErrInvalidProductName        = errors.New("product name cannot be empty")
